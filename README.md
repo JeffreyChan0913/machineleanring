@@ -1,9 +1,9 @@
-# machineleanring
+# Machine leanring
 This respo is specifically for those who would like to learn machine learning on your own. 
 
-I will start from regression modeling, and then i will decide what to include in this repos
+I will start from regression modeling, and I will include most popular statistical modeling techniques in this repos so that you can have all the idea of how it works.
 
-I will include most popular statistical modeling technique in this repos so that you can have all the idea of how it works
+I would suggest you to use 
 
 1) Regression
 		- Linear Regression Essentials in R <br />
