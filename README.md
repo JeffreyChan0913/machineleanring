@@ -3,7 +3,7 @@ This respo is specifically for those who would like to learn machine learning on
 
 I will start from regression modeling, and I will include most popular statistical modeling techniques in this repos so that you can have all the idea of how it works.
 
-I would suggest you to use 
+I would suggest you to use .rmd and work along with mine to see the result. Pdf version is for you to revise what is going on.
 
 1) Regression
 		- Linear Regression Essentials in R <br/>
