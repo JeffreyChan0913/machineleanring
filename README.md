@@ -6,7 +6,7 @@ I will start from regression modeling, and I will include most popular statistic
 I would suggest you to use 
 
 1) Regression
-		- Linear Regression Essentials in R <br />
+		- Linear Regression Essentials in R <br/>
 		- Interaction Effect in Multiple Regression: Essentials. <br />
 		- Regression with Categorical Variables: Dummy Coding Essentials in R. <br />
 		- Nonlinear Regression Essentials in R: Polynomial and Spline Regression Models. <br />
@@ -17,6 +17,14 @@ I would suggest you to use
 		- Linear Regression Assumptions and Diagnostics in R: Essentials. <br />
 		- Multicollinearity Essentials and VIF in R ( im currently on this section).    <br />
 		- Confounding Variable Essentials. <br />
+3) Regression Model Validation <br/>
+		- Regression Model Accuracy Metrics: R-square, AIC, BIC, Cp and more<br/>
+		- Cross-Validation Essentials in R<br/>
+		- Bootstrap Resampling Essentials in R<br/>
+4) Model Selection Essentials in R (im current on this section<br/>
+		- Best Subsets Regression Essentials in R<br/>
+		- Stepwise Regression Essentials in R<br/>
+		- Penalized Regression Essentials: Ridge, Lasso & Elastic Net<br/>
 
 The list will be updated
 
