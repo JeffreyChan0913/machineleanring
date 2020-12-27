@@ -1,0 +1,1434 @@
+---
+title: "R for Data Science PSTAT 131"
+author: "JEFFREY CHAN"
+date: "12/13/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+please use this command to install the library `install.packages("tidyverse")`
+```{r}
+library(tidyverse)
+#library(ggplot2)
+```
+^ if you can see, there is some conflict from tidyverse library and dplyr library. So when we are using those functions, either from stats or dplyr, we need to specify the library name.
+
+build in data frame / data called mpg
+Lets find out if do big engines use more fuel
+```{r}
+str(mpg)
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+In ggplot2, ggplot() creates the coordinate system, and then i can add layers on top of the coordinate. in deed, geom_point is my second layer. 
+Also, ggplot will take the data set as parameter / input. 
+geom_point creates the scatter dots. 
+this goes in pair in side the geom_point(mappint = aes(x = , y = ))
+this will tell the graph what data on the x and y axies
+
+Template
+`ggplot(data = <DATA>) +
+      <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))`
+
+exercises
+```{r}
+ggplot(data = mpg)
+dim(mtcars)
+?mpg
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = cyl, y = hwy))
+```
+
+let jump back to mpg plot. we know that we plot hwy ~ displ or y = hwy, x = displ, but what if we want to know more insight like what type of vehicles are those? we can identify it with color
+Lets check what variables do they have in mpg
+```{r}
+str(mpg)
+```
+^ as we see we have class that illustrate what type of vehicle is it so we will use that info to plot a better graph
+
+```{r}
+ggplot(mpg) + 
+  geom_point(aes(x = displ, y = hwy, color = class))
+```
+^ now we set different color by it's own type of vehicle type
+it is more information from and we can more a better conclusion.
+color function comes with automatically labelling the vehicle types at the side. 
+
+now we can plot the graph with the following
+```{r}
+ggplot(mpg) + 
+  geom_point(aes(x = displ, y = hwy, size = class))
+```
+^ as you can see, we can a warning "using size for a discrete varaible is not advised." 
+because mapping an unordered variable (class) to an ordered aesthetic (size) is not a good idea.
+
+Alternative
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, alpha = class))
+```
+
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, shape = class))
+```
+By now you should see the warning if you use rmd to read this file. 
+shape = class this function right here, in ggplot2, it only reserves 6 different symbols only.
+
+we can also set the color manually like the following
+```{r}
+ggplot(mpg) + 
+  geom_point(aes(x = displ, y = hwy), color = "darkorange")
+```
+I hope you are paying attention to the code itself. As you can see, if we want to define the color, the argument is outside of aes. 
+`ggplot(mpg) + 
+  geom_point(aes(x = displ, y = hwy), color = "darkorange")`
+
+Compare with the previous one
+`ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, shape = class))`
+`ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, alpha = class))`
+`ggplot(mpg) + 
+  geom_point(aes(x = displ, y = hwy, size = class))`
+`ggplot(mpg) + 
+  geom_point(aes(x = displ, y = hwy, color = class))`
+
+All the color function is INSIDE the aes function. Please take note for this step
+If you refere to the table / the book. 
+0-14 hollow shapes can be defined with color
+15-19 solid shapes are filled with color
+21-24 filled shapes and it can be defined a new boarder color
+
+Q1 Why it is not blue?
+```{r}
+ggplot(data = mpg) +
+          geom_point(
+            mapping = aes(x = displ, y = hwy, color = "blue")
+          )
+```
+
+because color = "blue" is inside the aes, move it outside of aes will work
+```{r}
+ggplot(data = mpg) +
+          geom_point(
+            mapping = aes(x = displ, y = hwy),  
+            color = "blue"
+          )
+```
+Q2
+Map a continuous variable to color, size, and shape. How do these aesthetics behave differently for categorical versus contin‐ uous variables?
+```{r}
+mpg
+```
+^ when you type mpg, you will have this table. quick important note, when you see
+<chr> under the variable name, then it is categorical variable.
+
+Q3
+Map a continuous variable to color, size, and shape. How do these aesthetics behave differently for categorical versus contin‐ uous variables?
+```{r}
+ggplot(mpg) + 
+  geom_point(aes(x=displ, y=hwy, color=cty))
+```
+instead of using discrete colors, continuous variable uses a scale that varies from light to dark.
+```{r}
+ggplot(mpg, aes(x=displ, y = hwy, size = cty)) + 
+  geom_point()
+  
+```
+Q4
+What happens if you map the same variable to multiple aesthetics?
+it just looks bad, because it is redundant
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy, colour = hwy, size = displ)) +
+  geom_point()
+```
+another way of plotting the ggplot
+```{r}
+ggplot(mpg,aes(x=displ,y=hwy)) + 
+  geom_point()
+```
+Q5
+What does the stroke aesthetic do? What shapes does it work with? (Hint: use ?geom_point.)
+```{r}
+ggplot(mtcars, aes(wt,mpg)) + 
+  geom_point(shape = 21, color = "black", fill = "white", size = 5,
+             stroke = 5)
+```
+```{r}
+ggplot(mtcars, aes(wt,mpg)) + 
+  geom_point(shape = 21, color = "black", fill = "white", size = 5,
+             stroke = 1)
+```
+As you can see stroke control the border size and stroke will only work for the shapes (21-25)
+
+Q6
+What happens if you map an aesthetic to something other than a variable name, like aes(color = displ < 5)?
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy, colour = displ < 5)) +
+  geom_point()
+```
+As you can see, if the displacement is >= 5 it will switch color from green to red.
+```{r}
+mpg
+```
+
+Facets this will plot the graph by it's own kind
+code: facet_wrap(y ~ x variable_name, nrow = #?)
+i can do it by itself ( ~ class)
+
+```{r}
+ggplot(mpg) + 
+  geom_point(aes(x = displ, hwy)) + 
+  facet_wrap(~ class, nrow = 2)
+```
+let's plot drv ~ cyl
+```{r}
+ggplot(mpg) + 
+  geom_point(aes(displ,hwy)) +
+  facet_grid(drv ~ cyl)
+```
+grid vs wrap is i have 2 more variables at the side. 4 5 6 8 on top is the cylinder, and 4 f r is the drive train.
+try to figure out how to read the variables from the data set with help function. 
+
+```{r}
+ggplot(mpg) + 
+  geom_point(aes(displ,hwy)) +
+  facet_grid(. ~ cyl)
+```
+
+Q1 What happens if you facet on a continuous variable?
+```{r}
+ggplot(mpg) + 
+  geom_point(aes(displ,hwy)) +
+  facet_grid(. ~ model)
+```
+As you can see the graph above, if i facet a continuous variable, the plot will become unreadable.
+
+Q2 What do the empty cells in a plot with facet_grid(drv ~ cyl) mean? How do they relate to this plot?
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = drv, y = cyl)) + 
+  facet_grid(drv ~ cyl)
+```
+I have two empty plots at the lower left corners
+```{r}
+ggplot(mpg) + 
+  geom_point(aes(drv,cyl))
+```
+The empty cells (facets) in this plot are combinations of drv and cyl that have no observations. These are the same locations in the scatter plot of drv and cyl that have no points.
+(from the book but i still dont get it)
+
+Q3 What plots does the following code make? What does . do?
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(drv ~ .)
+```
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(. ~ cyl)
+```
+Well, by the book the dot ignores the dimension when faceting. 
+just remember 1 thing, facet_grid( y ~ x)
+
+
+Q4 Take the first faceted plot in this section:
+        ggplot(data = mpg) +
+          geom_point(mapping = aes(x = displ, y = hwy)) +
+          facet_wrap(~ class, nrow = 2)
+What are the advantages to using faceting instead of the color aesthetic? What are the disadvantages? How might the balance change if you had a larger dataset?
+
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap(~ class, nrow = 2)
+```
+obviously, by using facet_wrap it is more readable. 
+
+```{r}
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap(~ class, nrow = 3, ncol = 3)
+```
+
+We can define how many rows and cols, also for facet_grid, we do not have to identify how many cols and rows. 
+
+Q6 When using facet_grid() you should usually put the variable with more unique levels in the columns. Why?
+Since we usually have more spacing for cols than rows
+
+Geometric Objects
+
+there are different types of geom. point, smooth, line, boxplot and so on...
+
+let display the basic
+```{r}
+ggplot(mpg) + 
+  geom_point(aes(displ, hwy))
+```
+
+
+
+```{r}
+ggplot(mpg) + 
+  geom_smooth(aes(displ,hwy))
+```
+
+```{r}
+ggplot(mpg) + 
+  geom_smooth(aes(displ,hwy))
+```
+
+Here, geom_smooth() separates the cars into three lines based on drv, 4, f, r. 
+```{r}
+ggplot(mpg) + 
+  geom_smooth(aes(displ, hwy, linetype = drv))
+```
+I can also use the same X and Y values and plot the points and smooth. 
+```{r}
+ggplot(mpg) + 
+  geom_point(aes(displ, hwy, color = drv)) +
+  geom_smooth(aes(displ, hwy, linetype = drv, color = drv))
+```
+From the above code you can see that i have duplicated code. displ, hwy @ two places. so we can imporve it by the following method
+```{r}
+ggplot(data = mpg, aes(displ, hwy, color = drv)) + 
+  geom_point() +
+  geom_smooth(aes(linetype = drv))
+```
+
+1. What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?
+
+geom_line()
+geom_boxplot()
+geom_histogram()
+geom_area()
+
+2)
+Run this code in your head and predict what the output will look like. Then, run the code in R and check your predictions:
+
+color points and line without confident interval
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
+  geom_point() + 
+  geom_smooth(se = FALSE)
+```
+3)
+What does show.legend = FALSE do? What happens if you remove it? Why do you think I used it earlier in the chapter?
+
+show.legend = F will remove the DRV info box from the plot and the graph is actually slightly larger. 
+
+```{r}
+ggplot(data = mpg) +
+  geom_smooth(
+    mapping = aes(x = displ, y = hwy, colour = drv),
+    show.legend = FALSE)
+```
+```{r}
+ggplot(data = mpg) +
+  geom_smooth(
+    mapping = aes(x = displ, y = hwy, colour = drv),
+    show.legend = T)
+```
+
+4. What does the se argument to geom_smooth() do?
+se from geom_smooth() is to add the standard error bands 
+
+5. Will these two graphs look different? Why/why not?
+       ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+         geom_point() +
+         geom_smooth()
+       ggplot() +
+         geom_point(
+data = mpg,
+mapping = aes(x = displ, y = hwy) )+
+         geom_smooth(
+           data = mpg,
+           mapping = aes(x = displ, y = hwy)
+)
+
+no difference. 
+
+6. Re-create the R code necessary to generate the following graphs.
+plot (1,1)
+```{r}
+ggplot(mpg, aes(displ,hwy)) +
+  geom_point() +
+  geom_smooth(se = F)
+```
+plot (1,2)
+```{r}
+ggplot(mpg, aes(displ,hwy)) +
+  geom_point() +
+  geom_smooth(se = F, aes(line = drv))
+```
+plot(2,1)
+```{r}
+ggplot(mpg, aes(displ,hwy, color = drv)) + 
+  geom_point() +
+  geom_smooth(se = F, aes(line = drv))
+```
+
+plot(2,2)
+```{r}
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point(aes(color = drv)) + 
+  geom_smooth(se = F)
+```
+
+plot(3,1)
+```{r}
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point(aes(color = drv))+
+  geom_smooth(se = F, aes(linetype = drv))
+```
+
+plot(3,2)
+```{r}
+ggplot(mpg, aes(displ, hwy, color = drv)) + 
+  geom_point()
+```
+
+
+Statistical Transformations
+```{r}
+ggplot(diamonds, aes(cut)) + 
+  geom_bar()
+```
+
+i can reproduce this graph with stat_count
+```{r}
+ggplot(diamonds, aes(cut)) + 
+  stat_count()
+```
+
+Let get it from data frame
+```{r}
+a <- c("bar1","bar2","bar3")
+b <- c(20,30,40)
+d <- cbind(a,b)
+demo <- as.data.frame(d)
+demo
+ggplot(demo) + 
+  geom_bar(aes(x = `a`, y= `b`), stat = "identity")
+```
+
+```{r}
+ggplot(diamonds) + 
+  geom_bar(aes(cut, ..prop.., group = 1))
+```
+
+stat_summary will summarize y values for each unique x value
+by looking at the parameters, i believe you can guess what is going on.
+ymin = min, ymax = max, and y =median. this parameters are similar with the 
+5 number of summary like q1 and q3 with median and min with max.
+```{r}
+ggplot(diamonds) + 
+  stat_summary(
+    aes(cut, depth),
+    fun.ymin = min,
+    fun.ymax = max,
+    fun.y = median 
+  )
+```
+
+Position Adjustment
+
+```{r}
+ggplot(diamonds) + 
+  geom_bar(aes(cut, color = cut))
+```
+As you can see the color parameter is specifically for the border of the bar
+unlike the geom_point, the color will represent the actual dot
+
+```{r}
+ggplot(diamonds) + 
+  geom_bar(aes(cut, fill = cut))
+```
+If you would like the entire bar with color, all we have to do is to use the fill function 
+What about if we map the fill with different variable? 
+```{r}
+ggplot(diamonds) + 
+  geom_bar(aes(cut, fill = clarity))
+```
+You will able to see there are different layers on a single bar. Because, from the data frame, clarity, we have multiple clarity with different cut, that's why a fair cut can have a high clarity which creates those layers in a bar. 
+
+There are three types of position we can use 
+identity, fill, and dodge.
+
+Let's try identity
+```{r}
+ggplot(diamonds, aes(cut, fill = clarity)) + 
+  geom_bar(alpha = 1/5, position = "identity")
+```
+alpha will control the transparency, it has the the effect as fill, fill = stack over each other.
+
+Let's look at fill = NA without setting the alpha. 
+```{r}
+ggplot(diamonds, aes(cut ,color = clarity)) +
+  geom_bar(fill = NA, position = "identity")
+```
+This setting is simply unreadable.
+
+let's look at position = fill
+```{r}
+ggplot(diamonds) + 
+  geom_bar( aes(cut, fill=clarity), position = "fill")
+```
+
+Lets take a look at position = dodge
+```{r}
+ggplot(diamonds) + 
+  geom_bar(aes(cut, fill =clarity), position = "dodge")
+```
+dodge is simply mean put those bars side by sideit is not too bad compare with stack. dodge is more useful imo. 
+
+There is another adjustment is useful when we using the geom_point. 
+recall
+```{r}
+str(mpg)
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+This data set has 234 observation, but obviously the plot does not have all of those. Well, because there are values of hwy and displ are rounded, so the points appear on the plot are actually overlapping each other. This problem is known as overplotting. 
+
+```{r}
+ggplot(mpg) + 
+  geom_point(aes(displ,hwy), position ="jitter")
+```
+The jitter will add small amount of random noise to each point. which means the scatter point will be drifted slightly. 
+Short handed version
+```{r}
+ggplot(mpg) + 
+  geom_jitter(aes(displ,hwy))
+```
+
+Q1
+What is the problem with this plot? How could you improve it?
+```{r}
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point()
+```
+as you can see, for example x = 15, i can see a stack of dots, which indicates that there is a over plotting problem. 
+
+We can  simply use jitter to solve the problem
+```{r}
+ggplot(mpg, aes(cty,hwy)) + 
+  geom_jitter()
+```
+
+Q2
+2. What parameters to geom_jitter() control the amount of jit‐ tering?
+According to the documentation, geom_jitter() will take width and height.
+so if you setthe width and hieght, it will either spread out wider or taller.
+
+Q3
+Compare and contrast geom_jitter() with geom_count().
+
+As we have covered, geom_jitter() will create a random noise on the points. Thats is how the point wont overlap each other. 
+```{r}
+ggplot(mpg, aes(cty,hwy)) + 
+  geom_jitter()
+```
+But geom_count, it will size up the point if they are overlapping.
+```{r}
+ggplot(mpg, aes(cty,hwy)) + 
+  geom_count()
+```
+```{r}
+ggplot(mpg, aes(cty, hwy, color = class)) + 
+  geom_jitter()
+```
+```{r}
+ggplot(mpg, aes(cty,hwy, color = class)) + 
+  geom_count()
+```
+
+
+Q4 What’s the default position adjustment for geom_boxplot()?
+Create a visualization of the mpg dataset that demonstrates it.
+
+```{r}
+ggplot(mpg, aes(drv,hwy, color = class)) + 
+  geom_boxplot()
+```
+A quick refresh, if the color is = a varaible, then it has to be in side the aes. Othwerise, it must be outside of aes. 
+now i can position those box plot overlapping each other.
+
+```{r}
+ggplot(mpg, aes(drv, hwy, color = class)) + 
+  geom_boxplot(position = "identity")
+```
+
+Coordinate systems. 
+
+```{r}
+ggplot(mpg, aes(x = class,y = hwy)) + 
+  geom_boxplot()
+```
+What if we would like to flip the co ordinate around?
+```{r}
+ggplot(mpg, aes(class, hwy)) + 
+  geom_boxplot() + 
+  coord_flip()
+```
+the coord_flip will do
+
+```{r}
+library(ggplot2)
+require(maps)
+nz <- map_data("nz")
+ggplot(nz, aes(long,lat, group = group)) + 
+  geom_polygon(fill = "white", color = "black")
+```
+coord_quickmap() will set the aspect ratio correctly for maps. It is super important if you are plotting a lot of data
+```{r}
+ggplot(nz, aes(long,lat,group = group)) + 
+  geom_polygon(fill = "white", color = "black") + 
+  coord_quickmap()
+```
+
+1. Turn a stacked bar chart into a pie chart using coord_polar().
+From
+```{r}
+ggplot(mpg, aes(x = factor(1), fill = drv)) +
+  geom_bar()
+```
+To
+```{r}
+ggplot(mpg, aes(factor(1), fill = drv)) + 
+  geom_bar(width =1) + 
+  coord_polar(theta = "y")
+```
+The theta is map y as an angle. If the coord_polar() does not specify the the theta, I will have an bull eye effect
+
+```{r}
+ggplot(mpg,aes(factor(1), fill = drv)) + 
+  geom_bar(width = 1) + 
+  coord_polar()
+```
+
+2. What does labs() do? Read the documentation.
+
+It has multiple purposes, it will add the label for x y and title axies on the plot
+
+3.What’s the difference between coord_quickmap() and coord_map()?
+The coord_map() function uses map projections to project the three-dimensional Earth onto a two-dimensional plane. By default, coord_map() uses the Mercator projection. This projection is applied to all the geoms in the plot. The coord_quickmap() function uses an approximate but faster map projection. This approximation ignores the curvature of Earth and adjusts the map for the latitude/longitude ratio. The coord_quickmap() project is faster than coord_map() both because the projection is computationally easier, and unlike coord_map(), the coordinates of the individual geoms do not need to be transformed.
+
+4. What does the following plot tell you about the relationship between city and highway mpg? Why is coord_fixed() important? What does geom_abline() do?
+```{r}
+p <- ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+          geom_point() +
+          geom_abline() +
+          coord_fixed()
+p + coord_fixed()
+```
+
+without coord_fixed(), the book claim that the line would no longer be 45 degree which i dont see a big difference
+
+```{r}
+q <- ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+          geom_point() +
+          geom_abline() +
+          coord_fixed()
+q
+```
+Ch4
+
+In R, categorical variables are saved as f actors or character vectors. 
+For example
+```{r}
+ggplot(diamonds) + 
+  geom_bar(aes(cut))
+```
+As you can see all those values on x axies are categorical variables. 
+```{r}
+diamonds %>%
+ count(cut)
+```
+We can see the distribution by carat by histogram
+```{r}
+ggplot(diamonds) +
+  geom_histogram(aes(carat), binwidth = 0.5)
+  
+```
+
+
+There is another way without using graph to see the distribution
+```{r}
+diamonds %>%
+  count(cut_width(carat, 0.5))
+```
+well, the histogram will divide the x axis in to equally spaced bins. then will use the height of the bin to illustrate the observation thru y axis.
+
+We can zoom into the diamonds with a size of less than 3 carats with a smaller binwidth
+```{r}
+smaller <- diamonds %>%
+  filter(carat <3)
+ggplot(smaller, aes(carat)) + 
+  geom_histogram(binwidth =0.1)
+
+```
+
+If we would like to illustrate all the categorical variables in the same graph, we might consider to use geom_freqploy
+```{r}
+ggplot(smaller, aes(carat, color = cut)) + 
+  geom_freqpoly(binwidth = 0.1)
+```
+
+There are few problem with this types of graph, but we will come back to these problems when we reach "categorical and continuous variable"
+
+In bar and histograms, tall bars = most frequent values, short bars = opposite of tall bars. 
+coord_cartesian is simply zooming in at a specific range without changing any data
+
+```{r}
+ggplot(diamonds) + 
+  geom_histogram(aes(x = y), binwidth = 0.5) + 
+  coord_cartesian ( ylim = c(0,10))
+```
+```{r}
+ggplot(diamonds) + 
+  geom_histogram(aes(x = y), binwidth = 0.5) + 
+  coord_cartesian ( ylim = c(0,50))
+```
+```{r}
+ggplot(diamonds) + 
+  geom_histogram(aes(x = y), binwidth = 0.5) + 
+  coord_cartesian ( ylim = c(0,100))
+```
+after these 3 plots, i hope you can see that what it has been changed is simply the y lim from 10 to 50 to 100. 
+
+Q1 Explore the distribution of each of the x, y, and z variables in diamonds. What do you learn? Think about a diamond and how you might decide which dimension is the length, width, and depth.
+```{r}
+summary(select(diamonds, x, y, z))
+```
+
+```{r}
+diamonds %>%
+  arrange(desc(z)) %>%
+  head()
+```
+
+```{r}
+par(mfrow=c(1,3))
+ggplot(diamonds, aes(x,y)) + 
+  geom_point()
+ggplot(diamonds, aes(x,z)) + 
+  geom_point()
+ggplot(diamonds, aes(y,z)) + 
+  geom_point()
+par(mfrow=c(1,1))
+```
+
+```{r}
+#install.packages("gridExtra")
+library(gridExtra)
+#par(mfrow=c(1,3))  this wont work with ggplot, thats why we need gridExtra, apply grid.arrange
+p1<-ggplot(diamonds, aes(x,y)) + 
+  geom_point()
+p2<-ggplot(diamonds, aes(x,z)) + 
+  geom_point()
+p3<-ggplot(diamonds, aes(y,z)) + 
+  geom_point()
+grid.arrange(p1,p2,p3, nrow =1, ncol=3)
+```
+```{r}
+px <- filter(diamonds, x > 0, x <10) %>%
+  ggplot() + 
+  geom_histogram(aes(x), binwidth = 0.01) + 
+  scale_x_continuous(breaks = 1:10)
+px2 <- filter(diamonds, y > 0, y < 10) %>%
+  ggplot() +
+  geom_histogram(aes(y), binwidth = 0.01) + 
+  scale_x_continuous((breaks = 1:10))
+px3 <- filter(diamonds, z >0 & z <10) %>%
+  ggplot() +
+  geom_histogram(aes(z), binwidth = 0.01) + 
+  scale_x_continuous((breaks = 1:10))
+grid.arrange(px,px2,px3, nrow = 1, ncol=3)
+```
+Just want to shouw that by using z >0 , z <10 is just the same with z > 0 & z < 10
+```{r}
+px3_1 <- filter(diamonds, z >0, z <10) %>%
+  ggplot() +
+  geom_histogram(aes(z), binwidth = 0.01) + 
+  scale_x_continuous((breaks = 1:10))
+grid.arrange(px3, px3_1, nrow = 1, ncol = 2)
+```
+
+2. Explore the distribution of price. Do you discover anything unusual or surprising? (Hint: carefully think about the bin width and make sure you try a wide range of values.)
+
+```{r}
+ggplot(diamonds) + 
+  geom_histogram(aes(price), binwidth = 0.1)
+```
+When using binwidth as 0.1, the graph is unreadable because it is too small...
+
+```{r}
+ggplot(diamonds) + 
+  geom_histogram(aes(price), binwidth = 5)
+```
+
+lets dig deep down and see
+```{r}
+ggplot(filter(diamonds, price < 2500), aes(price)) + 
+  geom_histogram(binwidth = 10, center =0)
+```
+```{r}
+ggplot(filter(diamonds), aes(price)) + 
+  geom_histogram(binwidth = 100, center =0)
+```
+
+The price data has many spikes, but I can’t tell what each spike corresponds to. The following plots don’t show much difference in the distributions in the last one or two digits.
+
+There are no diamonds with a price of $1,500 (between $1,455 and $1,545, including).
+
+There’s a bulge in the distribution around $750.
+
+
+
+The last digits of prices are often not uniformly distributed. They are often round, ending in 0 or 5 (for one-half). Another common pattern is ending in 99, as in $1999. If we plot the distribution of the last one and two digits of prices do we observe patterns like that?
+so we simply use modulas and see what would it like
+
+
+```{r}
+diamonds %>%
+  mutate(ending = price %%10) %>%
+  ggplot(aes(ending)) + 
+  geom_histogram(binwidth = 1, center =0)
+```
+
+```{r}
+diamonds %>%
+  mutate(ending = price %% 100) %>%
+  ggplot(aes(ending)) + 
+  geom_histogram(binwidth = 1)
+```
+
+How many diamonds are 0.99 carat? How many are 1 carat? What do you think is the cause of the difference?
+
+
+```{r}
+diamonds %>%
+  filter(carat >= 0.99, carat <= 1) %>%
+  count(carat)
+```
+
+```{r}
+diamonds %>%
+  filter(carat >=0.99, carat <= 1.1) %>%
+  count(carat) %>%
+  print(n = Inf)
+```
+
+Compare and contrast coord_cartesian() vs xlim() or ylim() when zooming in on a histogram. What happens if you leave binwidth unset? What happens if you try and zoom so only half a bar shows?
+
+```{r}
+ggplot(diamonds) + 
+  geom_histogram(aes(price)) + 
+  coord_cartesian(xlim = c(100,5000), ylim = c(0,3000))
+```
+The coord_cartesian() function zooms in on the area specified by the limits, after having calculated and drawn the geoms. Since the histogram bins have already been calculated, it is unaffected.
+
+```{r}
+ggplot(diamonds) + 
+  geom_histogram(aes(price)) + 
+  xlim(100,5000) +
+  ylim(0,3000)
+```
+
+Missing values
+
+```{r}
+(tail(sort(diamonds$y)))
+```
+
+Now we can filter out the outlier
+
+```{r}
+diamonds2 <- diamonds %>%
+  filter(between(y,3,20))
+diamonds2
+```
+
+We can replace the missing values or unusual values to NA
+```{r}
+diamonds2 <- diamonds %>%
+  mutate(y = ifelse(y < 3 | y >20, NA, y))
+diamonds2
+```
+ifelse( logic, T, F)
+
+missing value might provide you some insight, but nothing important. However, in ggplot2 it will tell you the values have been removed. 
+```{r}
+ggplot(diamonds2, aes(x,y)) + 
+  geom_point()
+```
+if i do not want the warning to be printed, i can use geom_point(na.rm = T)
+
+```{r}
+ggplot(diamonds2, aes(x,y)) +
+  geom_point(na.rm = T)
+```
+
+in nycflights13 data, there are missing values for dep_time variable, which indicates that the flight was canceled. So i need to compare the the time for departure times and non canceled times.
+The following code will check if there ia NA value
+```{r}
+any(is.na(nycflights13::flights))
+  #filter(dep_time)
+```
+
+```{r}
+nycflights13::flights %>%
+      mutate(
+        cancelled = is.na(dep_time),
+        sched_hour = sched_dep_time %/% 100,
+        sched_min = sched_dep_time %% 100,
+        sched_dep_time = sched_hour + sched_min / 60) %>%
+      ggplot(mapping = aes(sched_dep_time)) +
+        geom_freqpoly(
+          mapping = aes(color = cancelled),
+          binwidth = 1/4)
+```
+
+1. What happens to missing values in a histogram? What happens to missing values in a bar chart? Why is there a difference?
+```{r}
+diamonds2 <- diamonds %>%
+  mutate(y = ifelse(y <3 | y >20, NA, y))
+ggplot(diamonds2, aes(y)) + 
+  geom_histogram()
+```
+NA values will be removed automatically.
+
+lets try bar chart
+
+```{r}
+diamonds %>%
+  mutate(cut = if_else(runif(n())<0.1, NA_character_, as.character(cut))) %>%
+  ggplot() +
+  geom_bar(aes(cut))
+```
+In geom_bar() function, NA is treated as another category. X in geom_bar() requires a discrete(categorical) variable, and missing values act like another category.
+
+In histogram, x must be a numeric. Stat_bin() groups the observations by ranges in to bins. Since the numeric value of the NA observations is unknown, they cant be placed in a particular bin and the are dropped. 
+
+Q2 What does na.rm = TRUE do in mean() and sum()?
+
+```{r}
+mean(c(0,1,2,NA), na.rm=T)
+sum(c(0,1,2,NA), na.rm =T)
+```
+Obviously, both mean() and sum() have skipped the NA value.
+
+Co variation 
+
+We would like to see the behavior between variables. 
+co variation is the tendency for the values of two or more variables to vary together in a related way. The best way to see it is to plot the graph. 
+
+```{r}
+ggplot(data = diamonds, mapping = aes(x = price)) +
+      geom_freqpoly(mapping = aes(color = cut), binwidth = 500)
+```
+It is hard to see the difference in distribution because the overall counts differ so much. Let's plot it with geom_bar and see
+
+```{r}
+ggplot(diamonds) +
+  geom_bar(aes(cut))
+```
+
+To see it in different view, we switch the y axis to density
+```{r}
+ggplot(
+      data = diamonds,
+mapping = aes(x = price, y = ..density..) )+
+       geom_freqpoly(mapping = aes(color = cut), binwidth = 500)
+str(diamonds)
+```
+Another way to see the distribution is apply a box plot, 5 number summary. 
+
+```{r}
+ggplot(diamonds, aes(x = cut, y = price)) + 
+  geom_boxplot()
+```
+From this, you can see that we have 5 differ cut from the plot and by looking at the median, 
+it is like 3000 or so for 5 cuts. So with the best cut you are still paying the median price. 
+
+now we can actually apply reorder function
+```{r}
+ggplot(diamonds, aes(x = reorder(cut, price, FUN = median), price)) +
+  geom_boxplot() +
+  xlab("cut")
+```
+
+Lets make another example,
+```{r}
+ggplot(mpg) + 
+  geom_boxplot(aes(x = reorder(class,hwy, FUN = median), y = hwy)) +
+  xlab("Class")
+```
+we can also rotate the plot because the variables' name might be too long
+
+```{r}
+ggplot(mpg) + 
+  geom_boxplot(aes( x = reorder(class,hwy, FUN = median), hwy)) +
+  coord_flip() + 
+  xlab("Class")
+```
+Q1
+Use what you’ve learned to improve the visualization of the departure times of cancelled versus noncancelled flights.
+
+```{r}
+nycflights13::flights %>%
+  mutate(
+    cancelled = is.na(dep_time),
+    sched_hour = sched_dep_time %/% 100,
+    sched_min = sched_dep_time %% 100,
+    sched_dep_time = sched_hour + sched_min / 60
+  ) %>%
+  ggplot() +
+  geom_boxplot(mapping = aes(y = sched_dep_time, x = cancelled))
+```
+Q2 
+What variable in the diamonds dataset is most important for predicting the price of a diamond? How is that variable correlated with cut? Why does the combination of those two relation‐ ships lead to lower quality diamonds being more expensive?
+
+As we know diamonds price is set by it's carat, clarity, and cut
+```{r}
+ggplot(diamonds, aes(carat, price)) + 
+  geom_point()
+```
+this plot doesnt mean anything because we have some many data, we can use boxplot
+
+```{r}
+ggplot(diamonds, aes(carat, price)) +
+  geom_boxplot(aes(group = cut_width(carat, 0.1)), orientation = "x")
+```
+fct_rev() this will reverse the order of the factor
+lets plot the color and price
+```{r}
+diamonds %>%
+  mutate(color = fct_rev(diamonds$color)) %>%
+  ggplot(aes(color, price)) +
+  geom_boxplot()
+
+```
+
+lets plot clarity vs price
+```{r}
+ggplot(diamonds) + 
+  geom_boxplot(aes(clarity, price))
+```
+
+cut vs carat
+
+```{r}
+ggplot(diamonds, aes(cut,carat)) + 
+  geom_boxplot()
+```
+
+Q4
+One problem with boxplots is that they were developed in an era of much smaller datasets and tend to display a prohibitively large number of “outlying values.” One approach to remedy this problem is the letter value plot. Install the lvplot package, and try using geom_lv() to display the distribution of price versus cut. What do you learn? How do you interpret the plots?
+
+```{r}
+#install.packages("lvplot")
+library(lvplot)
+ggplot(diamonds, aes(cut, price)) + 
+  geom_lv()
+```
+It is more useful than boxplot because
+1) larger data sets can give precise estimates of quantiles beyond the quartiles, and 
+2) in expectation, large data sets should have more outliers (in absolute numbers) 
+
+5)
+Compare and contrast geom_violin() with a faceted geom_his togram(), or a colored geom_freqpoly(). What are the pros and cons of each method?
+
+```{r}
+ggplot(data = diamonds, mapping = aes(x = price, y = ..density..)) +
+  geom_freqpoly(mapping = aes(color = cut), binwidth = 500)
+```
+
+```{r}
+ggplot(data = diamonds, mapping = aes(x = price)) +
+  geom_histogram() +
+  facet_wrap(~cut, ncol = 1, scales = "free_y")
+```
+
+```{r}
+ggplot(data = diamonds, mapping = aes(x = cut, y = price)) +
+  geom_violin() +
+  coord_flip()
+```
+
+those plot above have it's own good and bad. geom_freqploy() is a better for lookup. meaning that given a price, it is easy to tell which cut has the highest density. but they do overlap together. Second, geom_violin() and geom_histogram() have similar stregths and weaknesses. It tells the distributions, mean variance and so on. 
+
+Two Categorical variables 
+```{r}
+diamonds %>% 
+  count(color, cut)
+```
+we can visualize the data with tile
+
+```{r}
+diamonds %>%
+  count(color, cut) %>%
+  ggplot(aes(color, cut)) + 
+  geom_tile(aes(fill = n))
+
+```
+
+Ch3
+Data Transformation with dplyr
+
+```{r}
+library(dplyr)
+filter(nycflights13::flights, month == 1, day ==1)
+```
+We are filtering the data called nycflights13::flights with month ==1 and day ==1
+Remember one thing, dplyr will never modify the inputs. 
+```{r}
+jan1 <- filter(nycflights13::flights, month ==1 , day ==1)
+dec25 <- filter(nycflights13::flights, month ==12, day ==25)
+```
+```{r}
+(sqrt(2)^2) == 2
+((1/49) * 49) ==1
+near(sqrt(2)^2,2)
+near(1/49*49, 1)
+```
+
+The following code will find all the flights that departed in november or december.
+
+```{r}
+filter(nycflights13::flights, month == 11 | month ==12)
+```
+Alternative
+```{r}
+filter(nycflights13::flights, month %in% c(11,12))
+```
+
+If i want to find flights that werent delayed (on arrival or departure) by more than two hours, I can apply ! operator, i will show you both ways.
+```{r}
+filter(nycflights13::flights, !(arr_delay > 120 | dep_delay > 120))
+```
+```{r}
+filter(nycflights13::flights, arr_delay <= 120, dep_delay <= 120)
+```
+
+```{r}
+NA > 5
+10 == NA
+NA + 10
+NA == NA
+```
+you cant do anything with NA. Please think of NA means you dont know or i dont know
+
+you can check if the na exisit `is.na()'
+```{r}
+x <- NA
+y <- 1
+is.na(x)
+is.na(y)
+
+```
+filter only includes the T value, it will exclude F and NA values 
+```{r}
+df <- tibble(x = c(1, NA, 3))
+filter(df, x>1)
+```
+```{r}
+filter(df, is.na(x) | x >1)
+```
+1. Find all flights that:
+a. Had an arrival delay of two or more hours
+```{r}
+filter(nycflights13::flights, arr_delay >= 120)
+```
+b. Flew to Houston (IAH or HOU)
+```{r}
+filter(nycflights13::flights, dest %in% c("IAH", "HOU" ))
+```
+c. Were operated by United, American, or Delta
+```{r}
+filter(nycflights13::flights, carrier %in% c("UA", "AA", "DL" ))
+```
+d) Departed in summer (July, August, and September)
+```{r}
+filter(nycflights13::flights, month %in% c(7,8,9))
+```
+e) Arrived more than two hours late, but didn’t leave late
+```{r}
+filter(nycflights13::flights, arr_delay >= 120 & dep_delay <= 0)
+```
+
+f)Were delayed by at least an hour, but made up over 30 minutes in flight
+```{r}
+filter(nycflights13::flights, dep_delay >= 60, dep_delay - arr_delay > 30)
+```
+g) Departed between midnight and 6 a.m. (inclusive)
+```{r}
+filter(nycflights13::flights, dep_time == 2400 | dep_time <= 600)
+```
+2. Another useful dplyr filtering helper is between(). What does it do? Can you use it to simplify the code needed to answer the previous challenges?
+between is pretty good function as well. it has this function in SQL I believe
+```{r}
+filter(nycflights13::flights, between(month, 7,9))
+```
+3. How many flights have a missing dep_time? What other variables are missing? What might these rows represent?
+
+```{r}
+filter(nycflights13::flights, is.na(dep_time))
+```
+summary() function will actually display the number of missing values for all non character varaibles. 
+```{r}
+summary(nycflights13::flights)
+```
+
+4. Why is NA ^ 0 not missing?
+remember, whatever ^ 0 is just simply 1
+
+ Why is NA | TRUE not missing?
+ | implies or, so either one is true the logic will return true
+ 
+ Why is FALSE & NA not missing? 
+ & means both must be T to return true. So F & NA the first position is F then the logic will return F.
+ 
+Can you figure out the general rule? (NA * 0 is a tricky counterexample!)
+what everything goes with NA will be NA. 
+
+Arrange Rows with arrange()
+
+arrange() function is simply sorting things by order thats it.
+small > big
+```{r}
+arrange(nycflights13::flights, month)
+```
+
+```{r}
+arrange(nycflights13::flights, dep_time)
+```
+by descending order
+```{r}
+arrange(nycflights13::flights, desc(dep_time))
+```
+```{r}
+df1 <- tibble(x = c(5,2,NA))
+arrange(df, x)
+arrange(df, desc(x))
+```
+NA values will be always at the back / bottom of the vector.
+
+1. How could you use arrange() to sort all missing values to the start? (Hint: use is.na().)
+```{r}
+arrange(nycflights13::flights, desc(is.na(dep_time)), dep_time)
+```
+
+2. Sort flights to find the most delayed flights. Find the flights that left earliest.
+```{r}
+arrange(nycflights13::flights, desc(dep_delay))
+```
+```{r}
+arrange(nycflights13::flights, dep_time)
+```
+3. Sort flights to find the fastest flights.
+```{r}
+arrange(nycflights13::flights, air_time)
+```
+
+4. Which flights traveled the longest? Which traveled the shortest?
+longest flights
+```{r}
+arrange(nycflights13::flights, desc(distance))
+```
+shortest flights
+```{r}
+arrange(nycflights13::flights, distance)
+```
+
+Select Columns with select 
+
+select() function will allow you to pick specific cols 
+```{r}
+select(nycflights13::flights, year, month, day)
+```
+
+By applying str(nycflights13::flights). i can see that year month and day are located the first 3 cols. so i can use year:day
+```{r}
+select(nycflights13::flights, year:day)
+```
+i can drop those cols by applying -(year: day)
+```{r}
+select(nycflights13::flights, -(year:day))
+```
+i can rename the variable name as well to = from 
+```{r}
+rename(nycflights13::flights, tail_num = tailnum)
+```
+
+When reordering the cols, we pick what we want, and then we can use everything() to display the rest with it's original order.
+```{r}
+select(nycflights13::flights, time_hour, air_time, everything())
+```
+
+1. Brainstorm as many ways as possible to select dep_time, dep_delay, arr_time, and arr_delay from flights.
+without typing the actual variables' you can use numbers but you must know the exact col numbers
+```{r}
+select(nycflights13::flights, 4, 6, 7, 9)
+```
+another way is use another functions which are, starts_with("dep_"), starts_with("arr_")
+```{r}
+select(flights, starts_with("dep_"), starts_with("arr_"))
+```
+
+feed the variables vector to the select function
+```{r}
+variables <- c("dep_time", "dep_delay", "arr_time", "arr_delay")
+select(nycflights13::flights, !!!variables)
+```
+
+
+2. What happens if you include the name of a variable multiple times in a select() call?
+it will only count once
+```{r}
+select(nycflights13::flights, year, month, day, year,year)
+```
+
+3. What does the one_of() function do? Why might it be helpful in conjunction with this vector?
+```{r}
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+select(nycflights13::flights, one_of(vars))
+```
+one_of and all_of are similar so they work the same. 
+but all_of() will generate error when the element is not on the list. while, any_of() wont generate any error
+Now, what if when we feed the variable vector to the select function and inside the df has the same name as the variable vector?
+
+in this case all we have to do is to put !!! infron the for variable vector then it will work for sure.
+
+4. Does the result of running the following code surprise you? How do the select helpers deal with case by default? How can you change that default?
+```{r} 
+select(nycflights13::flights, contains("TIME"))
+```
+It doesnt amaze me because contains will print all the variable that has time in it. 
+But one thing, contains is ignore the case. some data base engines have case insensitive cols, so in order to make it work, i need to incldue this 
+```{r}
+select(nycflights13::flights, contains("TIME", ignore.case =F))
+```
+
+mutate
+it is similar with a function. you extract data and pass it to the function and create new cols
+```{r}
+flights_sml <- select(nycflights13::flights, year:day, ends_with("delay"), distance, air_time)
+mutate(flights_sml, gain = arr_delay - dep_delay, speed = distance / air_time *60)
+```
+if i only want to keep what i have created, use transmute()
+```{r}
+transmute(nycflights13::flights, gain = arr_delay - dep_delay, hours = air_time / 60,
+          gain_per_hour = gain / hours)
+```
+Offsets
+```{r}
+offx <- 1:10
+lag(offx)
+lead(offx)
+```
+
+cumulative and rolling aggregates
+```{r}
+cumsum(offx)
+cummean(offx)
+```
+
+ranking
+```{r}
+y <- c(1,2,2,NA,3,4)
+sort(y, decreasing = T)
+min_rank(y)
+min_rank(desc(y))
+```
+The sort function will remove the NA value, but the min_rank wont
+
+Grouped Summaries with summarize()
+
+```{r}
+summarize(nycflights13::flights, delay = mean(dep_delay, na.rm = T))
+```
+summarize() alone is not very useful. unless we use it with group_by()
+
+```{r}
+byDay <- group_by(nycflights13::flights, year, month, day)
+summarize(byDay, delay = mean(dep_delay, na.rm = T))
+```
+
+Combining multiple operations with the pipe
+
+```{r}
+byDest <- group_by(nycflights13::flights, dest)
+delay <- summarize(byDest, count = n(), dist = mean(distance, na.rm = T),
+                   delay = mean(arr_delay, na.rm = T))
+(delay <- filter(delay, count >20, dest != "HNL"))
+ggplot(delay, aes(dist, delay)) +
+  geom_point(aes(size = count), alpha = 1/3) + 
+  geom_smooth(se = F)
+```
+
+Alternative
+```{r}
+(delays1 <- nycflights13::flights %>%
+  group_by(dest) %>%
+  summarize(
+    count = n(),
+    dist = mean(distance, na.rm = T),
+    delay = mean(arr_delay, na.rm = T)) %>%
+  filter(count >20, dest != "HNL"))
+```
+
+Missing Values
+
+```{r}
+nycflights13::flights %>% 
+  group_by(year, month, day) %>%
+  summarize(mean = mean(dep_delay, na.rm = T))
+nycflights13::flights %>% 
+  group_by(year, month, day) %>%
+  summarize(mean = mean(dep_delay))
+```
+Without using na.rm my number will not be shown. 
+
+```{r}
+notCancelled <- nycflights13::flights %>%
+  filter(!is.na(dep_delay), !is.na(arr_delay))
+notCancelled
+notCancelled %>%
+  group_by(year, month, day) %>%
+  summarize(mean = mean(dep_delay))
+notCancelled
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
