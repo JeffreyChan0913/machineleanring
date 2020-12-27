@@ -18,7 +18,7 @@ I would suggest you to use .rmd and work along with mine to see the result. Pdf 
 		- Multicollinearity Essentials and VIF in R ( im currently on this section).    <br />
 		- Confounding Variable Essentials. <br />
 3) Regression Model Validation <br/>
-		- Regression Model Accuracy Metrics: R-square, AIC, BIC, Cp and more<br/>
+		- Regression Model Accuracy Metrics: R-square, AIC, BIC, Cook's Cp and more<br/>
 		- Cross-Validation Essentials in R<br/>
 		- Bootstrap Resampling Essentials in R<br/>
 4) Model Selection Essentials in R (im current on this section<br/>
