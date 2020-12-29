@@ -5,7 +5,7 @@ I will start from regression modeling, and I will include most popular statistic
 
 I would suggest you to use .rmd and work along with mine to see the result. Pdf version is for you to revise what is going on.
 
-Also, "ML_LinearRegression.pdf" is all the libraries and functions are being used in this tutorial. Last update: Dec 27, 2020
+Also, "ML_LinearRegression.pdf" is all the libraries and functions are being used in this tutorial. 
 
 1) Regression
 		- Linear Regression Essentials in R <br/>
@@ -30,4 +30,4 @@ Also, "ML_LinearRegression.pdf" is all the libraries and functions are being use
 		- Principal Component and Partial Least Squares Regression Essentials <br/>
 The list will be updated
 
- 
+ Last Updated Dec 28, 2020
