@@ -27,7 +27,7 @@ Also, "ML_LinearRegression.pdf" is all the libraries and functions are being use
 		- Best Subsets Regression Essentials in R<br/>
 		- Stepwise Regression Essentials in R<br/>
 		- Penalized Regression Essentials: Ridge, Lasso & Elastic Net<br/>
-		- Principal Component and Partial Least Squares Regression Essentials
+		- Principal Component and Partial Least Squares Regression Essentials <br/>
 The list will be updated
 
  
