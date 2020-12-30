@@ -7,6 +7,8 @@ I would suggest you to use .rmd and work along with mine to see the result. Pdf 
 
 Also, "ML_LinearRegression.pdf" is all the libraries and functions are being used in this tutorial. 
 
+reference site: http://www.sthda.com/english/ <br/>
+
 1) Regression
 		- Linear Regression Essentials in R <br/>
 		- Interaction Effect in Multiple Regression: Essentials. <br />
