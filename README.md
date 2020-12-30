@@ -34,6 +34,7 @@ reference site: http://www.sthda.com/english/ <br/>
 			+	Here is the error code.<br/>
 			+	"Error in UseMethod("R2") :  no applicable method for 'R2' applied to an object of class "c('double', 'numeric')"<br/>
 			+	The way I solve the problem is by adding carett:: in the front, full code-> caret::R2(prediction.object, test.data)<br/>
+		Upcoming <br/>
 5) Classification Methods Essentials (Currently at this sectino Dec 29, 2020) <br/>
 		- Logistic Regression Essentials in R<br/>
 		- Stepwise Logistic Regression Essentials in R<br/>
@@ -44,5 +45,10 @@ reference site: http://www.sthda.com/english/ <br/>
 		- Naive Bayes Classifier Essentials<br/>
 		- SVM Model: Support Vector Machine Essentials<br/>
 		- Evaluation of Classification Model Accuracy: Essentials<br/>
+6) Statistical Machine Learning Essentials <br/>
+		- KNN: K-Nearest Neighbors Essentials<br/>
+		- CART Model: Decision Tree Essentials<br/>
+		- Bagging and Random Forest Essentials<br/>
+		- Gradient Boosting Essentials in R Using XGBOOST<br/>
 		
- Last Updated Dec 29, 2020 7:40PM PST
+ Last Updated Dec 29, 2020 7:42PM PST
