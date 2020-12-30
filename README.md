@@ -28,6 +28,10 @@ Also, "ML_LinearRegression.pdf" is all the libraries and functions are being use
 		- Stepwise Regression Essentials in R<br/>
 		- Penalized Regression Essentials: Ridge, Lasso & Elastic Net<br/>
 		- Principal Component and Partial Least Squares Regression Essentials <br/>
+			In Principal Component and Partial Least Squares Regression Essentials, I have come across an error from caret library. 
+			here is the error code.
+			"Error in UseMethod("R2") :  no applicable method for 'R2' applied to an object of class "c('double', 'numeric')"
+			The way I solve the problem is by adding carett:: in the front, full code-> caret::R2(prediction.object, test.data)
 The list will be updated
 
- Last Updated Dec 28, 2020
+ Last Updated Dec 29, 2020
