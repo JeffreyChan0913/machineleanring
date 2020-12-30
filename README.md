@@ -19,13 +19,13 @@ reference site: http://www.sthda.com/english/ <br/>
 		- Predict in R: Model Predictions and Confidence Intervals. <br />
 2) Regression Model Diagnostics. <br />
 		- Linear Regression Assumptions and Diagnostics in R: Essentials. <br />
-		- Multicollinearity Essentials and VIF in R ( im currently on this section Dec 26, 2020).    <br />
+		- Multicollinearity Essentials and VIF in R<br />
 		- Confounding Variable Essentials. <br />
 3) Regression Model Validation <br/>
 		- Regression Model Accuracy Metrics: R-square, AIC, BIC, Cook's Cp and more<br/>
 		- Cross-Validation Essentials in R<br/>
 		- Bootstrap Resampling Essentials in R<br/>
-4) Model Selection Essentials in R (Im currently working on this section Dec 27, 2020)<br/>
+4) Model Selection Essentials in R<br/>
 		- Best Subsets Regression Essentials in R<br/>
 		- Stepwise Regression Essentials in R<br/>
 		- Penalized Regression Essentials: Ridge, Lasso & Elastic Net<br/>
@@ -34,7 +34,17 @@ reference site: http://www.sthda.com/english/ <br/>
 			+	Here is the error code.<br/>
 			+	"Error in UseMethod("R2") :  no applicable method for 'R2' applied to an object of class "c('double', 'numeric')"<br/>
 			+	The way I solve the problem is by adding carett:: in the front, full code-> caret::R2(prediction.object, test.data)<br/>
-			
+5) Classification Methods Essentials (Currently at this sectino Dec 29, 2020) 
+		- Logistic Regression Essentials in R
+		- Stepwise Logistic Regression Essentials in R
+		- Penalized Logistic Regression Essentials in R: Ridge, Lasso and Elastic Net
+		- Logistic Regression Assumptions and Diagnostics in R
+		- Multinomial Logistic Regression Essentials in R
+		- Discriminant Analysis Essentials in R
+		- Naive Bayes Classifier Essentials
+		- SVM Model: Support Vector Machine Essentials
+		- Evaluation of Classification Model Accuracy: Essentials
+		
 The list will be updated
 
  Last Updated Dec 29, 2020
