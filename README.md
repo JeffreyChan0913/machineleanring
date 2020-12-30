@@ -34,7 +34,7 @@ reference site: http://www.sthda.com/english/ <br/>
 			+	Here is the error code.<br/>
 			+	"Error in UseMethod("R2") :  no applicable method for 'R2' applied to an object of class "c('double', 'numeric')"<br/>
 			+	The way I solve the problem is by adding carett:: in the front, full code-> caret::R2(prediction.object, test.data)<br/>
-		Upcoming <br/>
+<br/>Upcoming <br/>
 5) Classification Methods Essentials (Currently at this sectino Dec 29, 2020) <br/>
 		- Logistic Regression Essentials in R<br/>
 		- Stepwise Logistic Regression Essentials in R<br/>
