@@ -45,6 +45,4 @@ reference site: http://www.sthda.com/english/ <br/>
 		- SVM Model: Support Vector Machine Essentials<br/>
 		- Evaluation of Classification Model Accuracy: Essentials<br/>
 		
-The list will be updated
-
- Last Updated Dec 29, 2020
+ Last Updated Dec 29, 2020 7:40PM PST
