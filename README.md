@@ -48,6 +48,4 @@ reference site: http://www.sthda.com/english/ <br/>
 6) Statistical Machine Learning Essentials <br/>
 		- KNN: K-Nearest Neighbors Essentials<br/>
 		- CART Model: Decision Tree Essentials<br/>
-		- Bagging and Random Forest Essentials<br/>
-		- Gradient Boosting Essentials in R Using XGBOOST<br/>		
- Last Updated Jan 1, 2021 8:30PM PST
+ Last Updated Jan 2, 2021 9:01PM PST
