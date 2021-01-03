@@ -1,5 +1,7 @@
 # Machine leanring
-This respo is specifically for those who would like to learn machine learning on your own. 
+This respo is specifically for those who would like to learn machine learning on your own. Just bare in mind, this repos is simply the basic intro. To understand how the actual model works, you will need to read extension to linear modeling, or spring intro to machine learning or similar books. 
+
+The entire guide is simply the surface of ML in R. In order to do good at it, you will definitely need to go thru those books i just listed. otherwise, you will be simply a coding robot, and not sure what are you coding. However, if some simple introduction to those methods, i have explained a little bit of hows the model work.
 
 I will start from regression modeling, and I will include most popular statistical modeling techniques in this repos so that you can have all the idea of how it works.
 
@@ -48,4 +50,4 @@ reference site: http://www.sthda.com/english/ <br/>
 6) Statistical Machine Learning Essentials <br/>
 		- KNN: K-Nearest Neighbors Essentials<br/>
 		- CART Model: Decision Tree Essentials<br/>
- Last Updated Jan 2, 2021 9:01PM PST
+ Last Updated Jan 2, 2021 9:05PM PST
