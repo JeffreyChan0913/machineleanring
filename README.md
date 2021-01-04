@@ -46,7 +46,7 @@ reference site: http://www.sthda.com/english/ <br/>
 		- Discriminant Analysis Essentials in R<br/>
 		- Naive Bayes Classifier Essentials<br/>
 		- SVM Model: Support Vector Machine Essentials<br/>
-		- Evaluation of Classification Model Accuracy: Essentials (Currently at this section Jan 1, 2021)<br/>
+		- Evaluation of Classification Model Accuracy: Essentials<br/>
 6) Statistical Machine Learning Essentials <br/>
 		- KNN: K-Nearest Neighbors Essentials<br/>
 		- CART Model: Decision Tree Essentials<br/>
